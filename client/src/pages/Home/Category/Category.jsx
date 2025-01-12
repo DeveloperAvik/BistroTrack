@@ -13,7 +13,7 @@ import slide5 from "../../../assets/home/slide5.jpg"
 
 function Category() {
     return (
-        <div>
+        <div className="mb-10">
             <Swiper
                 slidesPerView={4}
                 spaceBetween={30}
@@ -28,21 +28,29 @@ function Category() {
                     <img src={slide1} alt="" />
                     <h3 className="text-4xl uppercase text-center -mt-16 text-white font-thin">Salads</h3>
                 </SwiperSlide>
-                
+
                 <SwiperSlide>
                     <img src={slide2} alt="" />
+                    <h3 className="text-4xl uppercase text-center -mt-16 text-white font-thin">Pizza</h3>
+
                 </SwiperSlide>
 
                 <SwiperSlide>
                     <img src={slide3} alt="" />
+                    <h3 className="text-4xl uppercase text-center -mt-16 text-white font-thin">Soups</h3>
+
                 </SwiperSlide>
 
                 <SwiperSlide>
                     <img src={slide4} alt="" />
+                    <h3 className="text-4xl uppercase text-center -mt-16 text-white font-thin">Desserts</h3>
+
                 </SwiperSlide>
 
                 <SwiperSlide>
                     <img src={slide5} alt="" />
+                    <h3 className="text-4xl uppercase text-center -mt-16 text-white font-thin">Salads</h3>
+
                 </SwiperSlide>
             </Swiper>
 
