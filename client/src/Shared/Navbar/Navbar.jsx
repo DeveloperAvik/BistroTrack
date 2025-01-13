@@ -1,21 +1,17 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Navbar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const navOptions = (
         <ul className="menu menu-horizontal px-1">
-            <li><a>Item 1</a></li>
-            <li>
-                <details className="group">
-                    <summary>Parent</summary>
-                    <ul className="p-2">
-                        <li><a>Submenu 1</a></li>
-                        <li><a>Submenu 2</a></li>
-                    </ul>
-                </details>
-            </li>
-            <li><a>Item 3</a></li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/menu">Our Menu</Link></li>
+            <li><Link>Contact us</Link></li>
+            <li><Link></Link></li>
+
+            
         </ul>
     );
 
