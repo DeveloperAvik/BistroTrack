@@ -5,6 +5,8 @@ import Cover from "../../Shared/Cover/Cover"
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs"
 import "react-tabs/style/react-tabs.css"
 import useMenu from "../../hooks/useMenu"
+import FoodCard from "../../components/FoodCard/FoodCard"
+import OrderTab from "../OrderTab/OrderTab"
 
 function Order() {
 
@@ -16,7 +18,7 @@ function Order() {
     const soup = menu.filter(item => item.category === "soup")
     const pizza = menu.filter(item => item.category === "pizza")
     const salad = menu.filter(item => item.category === "salad")
-    const offered = menu.filter(item => item.category === "offered")
+    const drinks = menu.filter(item => item.category === "drinks")
 
 
     return (
@@ -30,11 +32,21 @@ function Order() {
                     <Tab>Desserts</Tab>
                     <Tab>Drinks</Tab>
                 </TabList>
-                <TabPanel></TabPanel>
-                <TabPanel></TabPanel>
-                <TabPanel></TabPanel>
-                <TabPanel></TabPanel>
-                <TabPanel></TabPanel>
+                <TabPanel>
+                    <OrderTab items={salad}></OrderTab>
+                </TabPanel>
+                <TabPanel>
+                    <OrderTab items={pizza}></OrderTab>
+                </TabPanel>
+                <TabPanel>
+                    <OrderTab items={soup}></OrderTab>
+                </TabPanel>
+                <TabPanel>
+                    <OrderTab items={dessert}></OrderTab>
+                </TabPanel>
+                <TabPanel>
+                    <OrderTab items={drinks}></OrderTab>
+                </TabPanel>
             </Tabs>
         </div>
     )
