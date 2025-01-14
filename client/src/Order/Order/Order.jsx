@@ -7,10 +7,19 @@ import "react-tabs/style/react-tabs.css"
 import useMenu from "../../hooks/useMenu"
 import FoodCard from "../../components/FoodCard/FoodCard"
 import OrderTab from "../OrderTab/OrderTab"
+import { useParams } from "react-router-dom"
+import { Helmet } from "react-helmet-async"
 
 function Order() {
 
-    const [tabIndex, setTabIndex] = useState(0);
+    const categories = ['salad', 'pizza', 'soup', 'dessert', 'drinks']
+    const { category } = useParams()
+
+    const initialCategory = categories.indexOf(category);
+    console.log(category)
+
+    const [tabIndex, setTabIndex] = useState(initialCategory);
+
 
     const [menu] = useMenu();
 
@@ -23,8 +32,13 @@ function Order() {
 
     return (
         <div>
+
+            <Helmet>
+                <title>Order Food</title>
+            </Helmet>
+
             <Cover img={orderImg} title={"Order Food "}></Cover>
-            <Tabs defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+            <Tabs className="mt-10" defaultIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
                 <TabList>
                     <Tab>Salad</Tab>
                     <Tab>Pizza</Tab>
@@ -53,3 +67,6 @@ function Order() {
 }
 
 export default Order
+
+
+

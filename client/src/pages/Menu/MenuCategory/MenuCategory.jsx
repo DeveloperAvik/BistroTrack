@@ -14,7 +14,7 @@ function MenuCategory({ items, title, img }) {
             </div>
 
             <div className="flex justify-center mt-4">
-                <Link>
+                <Link to={`/order/${title}`}>
                     <button
                         type="button"
                         className="btn btn-outline border-0 border-b-2 text-center items-center hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary"

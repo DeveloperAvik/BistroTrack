@@ -33,20 +33,20 @@ function Menu() {
 
             {/* dessert menu catrgory */}
 
-            <MenuCategory items={dessert} title={"Dessert"} img={dessertImg}></MenuCategory>
+            <MenuCategory items={dessert} title={"dessert"} img={dessertImg}></MenuCategory>
 
 
             {/* Pizza menu category */}
 
-            <MenuCategory items={pizza} title={"Pizza"} img={pizzaImg}></MenuCategory>
+            <MenuCategory items={pizza} title={"pizza"} img={pizzaImg}></MenuCategory>
 
             {/* Salad Category */}
 
-            <MenuCategory items={salad} title={"Salad"} img={saladImg}></MenuCategory>
+            <MenuCategory items={salad} title={"salad"} img={saladImg}></MenuCategory>
 
             {/* Soup category */}
 
-            <MenuCategory items={soup} title={"Soup"} img={soupImg}></MenuCategory>
+            <MenuCategory items={soup} title={"soup"} img={soupImg}></MenuCategory>
 
 
         </div>
