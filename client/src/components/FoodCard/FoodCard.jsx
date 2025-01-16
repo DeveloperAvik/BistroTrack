@@ -23,7 +23,7 @@ function FoodCard({ item }) {
                             Order Now
                         </button>
                     </div>
-                </div>f
+                </div>
             </div>
         </div>
     )
