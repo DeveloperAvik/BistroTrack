@@ -1,13 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {
+    loadCaptchaEnginge,
+    LoadCanvasTemplate,
+    LoadCanvasTemplateNoReload,
+    validateCaptcha,
+} from "react-simple-captcha";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [captcha, setCaptcha] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [captchaError, setCaptchaError] = useState(false);
+
+    useEffect(() => {
+        loadCaptchaEnginge(6);
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsSubmitting(true);
+
+        // Validate CAPTCHA
+        if (!validateCaptcha(captcha)) {
+            setCaptchaError(true);
+            setIsSubmitting(false);
+            return;
+        }
 
         // Simulate form submission
         setTimeout(() => {
@@ -17,12 +36,15 @@ function Login() {
     };
 
     return (
-        <div className="min-h-screen  from-teal-400 via-blue-500 to-indigo-600 flex justify-center items-center animate-gradient-pulse">
+        <div className="min-h-screen bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-600 flex justify-center items-center animate-gradient-pulse">
             <div className="bg-white p-8 rounded-3xl shadow-2xl max-w-sm w-full transform transition-all hover:scale-105 hover:shadow-3xl ease-in-out duration-500">
                 <h2 className="text-4xl font-bold text-center text-gray-800 mb-8 animate-fadeIn">Welcome Back!</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Email Input */}
                     <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                            Email Address
+                        </label>
                         <input
                             type="email"
                             id="email"
@@ -34,8 +56,11 @@ function Login() {
                         />
                     </div>
 
+                    {/* Password Input */}
                     <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                            Password
+                        </label>
                         <input
                             type="password"
                             id="password"
@@ -47,6 +72,42 @@ function Login() {
                         />
                     </div>
 
+                    {/* CAPTCHA 1 */}
+                    <div>
+                        <label htmlFor="captcha" className="block text-sm font-medium text-gray-700">
+                            CAPTCHA
+                        </label>
+                        <div className="mb-2">
+                            <LoadCanvasTemplate />
+                        </div>
+                        {captchaError && <p className="text-red-500 text-sm">Invalid CAPTCHA, please try again.</p>}
+                    </div>
+
+                    {/* CAPTCHA 2 */}
+                    <div>
+                        <label htmlFor="enterCaptcha" className="block text-sm font-medium text-gray-700">
+                            Enter CAPTCHA
+                        </label>
+                        <input
+                            type="text"
+                            id="captcha"
+                            name="captcha"
+                            className="w-full p-4 mt-2 border border-gray-300 rounded-md focus:ring-4 focus:ring-teal-500 focus:outline-none transform transition-all duration-300 hover:border-teal-500"
+                            placeholder="Enter CAPTCHA"
+                            value={captcha}
+                            onChange={(e) => setCaptcha(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    {/* Forgot Password Link */}
+                    <div className="text-right">
+                        <a href="#" className="text-teal-600 hover:text-teal-800 transition-all duration-300 text-sm">
+                            Forgot Password?
+                        </a>
+                    </div>
+
+                    {/* Submit Button */}
                     <button
                         type="submit"
                         className="w-full py-4 bg-teal-600 text-white font-semibold rounded-md hover:bg-teal-700 transition-all transform hover:scale-105 duration-300"
@@ -59,6 +120,7 @@ function Login() {
                         )}
                     </button>
 
+                    {/* Sign Up Link */}
                     <div className="text-center mt-6">
                         <span className="text-sm text-gray-600">
                             Don't have an account?{" "}

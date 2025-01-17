@@ -14,6 +14,6 @@ function Main() {
             {noheaderFooter || <Footer></Footer>}
         </div>
     )
-}
+} 
 
 export default Main
