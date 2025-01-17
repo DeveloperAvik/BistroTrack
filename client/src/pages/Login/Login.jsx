@@ -36,7 +36,7 @@ function Login() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-600 flex justify-center items-center animate-gradient-pulse">
+        <div className="min-h-screen from-teal-400 via-blue-500 to-indigo-600 flex justify-center items-center animate-gradient-pulse">
             <div className="bg-white p-8 rounded-3xl shadow-2xl max-w-sm w-full transform transition-all hover:scale-105 hover:shadow-3xl ease-in-out duration-500">
                 <h2 className="text-4xl font-bold text-center text-gray-800 mb-8 animate-fadeIn">Welcome Back!</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
