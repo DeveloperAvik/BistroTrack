@@ -6,8 +6,10 @@ import {
 } from "react-simple-captcha";
 
 // Importing the AuthContext
-import { AuthContext } from "../../providers/AuthProvider"; // Ensure the path is correct
+import { AuthContext } from "../../providers/AuthProvider";
 import { Link } from "react-router-dom";
+
+import Swal from 'sweetalert2'
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -16,7 +18,7 @@ function Login() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [captchaError, setCaptchaError] = useState(false);
 
-    const { signIn } = useContext(AuthContext); // Use the AuthContext here
+    const { signIn } = useContext(AuthContext);
 
     useEffect(() => {
         loadCaptchaEnginge(6);
@@ -33,11 +35,15 @@ function Login() {
             return;
         }
 
-        // Call the signIn function from the AuthContext
         signIn(email, password)
             .then(result => {
                 const user = result.user;
                 console.log(user);
+                Swal.fire({
+                    title: "Drag me!",
+                    icon: "success",
+                    draggable: true
+                });
             })
             .catch(error => {
                 console.error("Error signing in:", error);

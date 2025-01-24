@@ -1,17 +1,45 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../providers/AuthProvider';
 
 function Navbar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+    const { user, logOut } = useContext(AuthContext)
+
+
+    const handelLogOut = () => {
+        logOut()
+            .then(() => {
+
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
     const navOptions = (
-        <ul className="menu menu-horizontal px-1">
+        <>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/menu">Our Menu</Link></li>
             <li><Link to="/order/salad">Order</Link></li>
             <li><Link>Contact us</Link></li>
-            <li><Link to="/login">Login</Link></li>
-        </ul>
+            <li></li>
+
+
+            {
+                user ?
+                    <>
+                        <button onClick={handelLogOut} className='btn btn-ghost'>Log Out</button>
+                    </>
+
+                    :
+
+                    <>
+                        <Link to="/login">Login</Link>
+                    </>
+            }
+        </>
     );
 
     return (
