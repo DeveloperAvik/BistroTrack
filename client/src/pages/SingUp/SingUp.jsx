@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import {
     loadCaptchaEnginge,
     LoadCanvasTemplate,
@@ -8,23 +9,30 @@ import {
 import { AuthContext } from "../../providers/AuthProvider";
 
 function SignUp() {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [photoURL, setPhotoURL] = useState("");
-    const [password, setPassword] = useState("");
     const [captcha, setCaptcha] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [captchaError, setCaptchaError] = useState(false);
 
-    const { signUp } = useContext(AuthContext);
+
+    const { createUser } = useContext(AuthContext);
+
+    // useForm hook
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        setValue,
+        reset,
+    } = useForm();
 
     useEffect(() => {
         loadCaptchaEnginge(6);
     }, []);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const onSubmit = async (data) => {
         setIsSubmitting(true);
+
+        console.log(data)
 
         // Validate CAPTCHA
         if (!validateCaptcha(captcha)) {
@@ -33,21 +41,14 @@ function SignUp() {
             return;
         }
 
-        // Simulate user sign up
-        signUp(name, email, photoURL, password)
-            .then((result) => {
-                const user = result.user;
-                console.log(user);
-            })
-            .catch((error) => {
-                console.error("Sign up error: ", error);
-            });
+        createUser(data.email, data.password)
+        .then(result => {
+            const loggedUser = result.user;
+            console.log(loggedUser)
+        })
 
-        // Simulate form submission
-        setTimeout(() => {
-            setIsSubmitting(false);
-            alert("Form Submitted!");
-        }, 2000);
+
+        setIsSubmitting(false);
     };
 
     return (
@@ -56,21 +57,20 @@ function SignUp() {
                 <h2 className="text-4xl font-bold text-center text-gray-800 mb-8 animate-fadeIn">
                     Sign Up
                 </h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                     {/* Name Input */}
                     <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                             Full Name
                         </label>
                         <input
+                            {...register("name", { required: "Full Name is required" })}
                             type="text"
                             id="name"
                             name="name"
                             className="w-full p-4 mt-2 border border-gray-300 rounded-md focus:ring-4 focus:ring-teal-500 focus:outline-none transform transition-all duration-300 hover:border-teal-500"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
                         />
+                        {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
                     </div>
 
                     {/* Email Input */}
@@ -79,14 +79,13 @@ function SignUp() {
                             Email Address
                         </label>
                         <input
+                            {...register("email", { required: "Email is required" })}
                             type="email"
                             id="email"
                             name="email"
                             className="w-full p-4 mt-2 border border-gray-300 rounded-md focus:ring-4 focus:ring-teal-500 focus:outline-none transform transition-all duration-300 hover:border-teal-500"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
                         />
+                        {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                     </div>
 
                     {/* Photo URL Input */}
@@ -95,14 +94,13 @@ function SignUp() {
                             Photo URL
                         </label>
                         <input
+                            {...register("photoURL", { required: "Photo URL is required" })}
                             type="text"
                             id="photoURL"
                             name="photoURL"
                             className="w-full p-4 mt-2 border border-gray-300 rounded-md focus:ring-4 focus:ring-teal-500 focus:outline-none transform transition-all duration-300 hover:border-teal-500"
-                            value={photoURL}
-                            onChange={(e) => setPhotoURL(e.target.value)}
-                            required
                         />
+                        {errors.photoURL && <p className="text-red-500 text-sm">{errors.photoURL.message}</p>}
                     </div>
 
                     {/* Password Input */}
@@ -111,14 +109,23 @@ function SignUp() {
                             Password
                         </label>
                         <input
+                            {...register("password", {
+                                required: "Password is required",
+                                minLength: {
+                                    value: 8,
+                                    message: "Password must be at least 8 characters long",
+                                },
+                                pattern: {
+                                    value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/,
+                                    message: "Password must contain at least one letter and one number",
+                                },
+                            })}
                             type="password"
                             id="password"
                             name="password"
                             className="w-full p-4 mt-2 border border-gray-300 rounded-md focus:ring-4 focus:ring-teal-500 focus:outline-none transform transition-all duration-300 hover:border-teal-500"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
                         />
+                        {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
                     </div>
 
                     {/* CAPTCHA */}
@@ -134,7 +141,7 @@ function SignUp() {
 
                     {/* CAPTCHA Input */}
                     <div>
-                        <label htmlFor="enterCaptcha" className="block text-sm font-medium text-gray-700">
+                        <label htmlFor="captcha" className="block text-sm font-medium text-gray-700">
                             Enter CAPTCHA
                         </label>
                         <input
