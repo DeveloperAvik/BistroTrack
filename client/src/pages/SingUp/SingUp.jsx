@@ -14,7 +14,7 @@ function SignUp() {
     const [captchaError, setCaptchaError] = useState(false);
 
 
-    const { createUser } = useContext(AuthContext);
+    const { createUser, updateUserProfile } = useContext(AuthContext);
 
     // useForm hook
     const {
@@ -42,10 +42,16 @@ function SignUp() {
         }
 
         createUser(data.email, data.password)
-        .then(result => {
-            const loggedUser = result.user;
-            console.log(loggedUser)
-        })
+            .then(result => {
+                const loggedUser = result.user;
+                console.log(loggedUser)
+                updateUserProfile(data.name, data.photoURL)
+                    .then(() => {
+                        console.log(`user profile info updated`)
+                        reset()
+                    })
+                    .catch(error => console.log(error))
+            })
 
 
         setIsSubmitting(false);

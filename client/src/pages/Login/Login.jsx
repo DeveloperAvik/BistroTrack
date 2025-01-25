@@ -7,7 +7,7 @@ import {
 
 // Importing the AuthContext
 import { AuthContext } from "../../providers/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import Swal from 'sweetalert2'
 
@@ -17,6 +17,12 @@ function Login() {
     const [captcha, setCaptcha] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [captchaError, setCaptchaError] = useState(false);
+
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || "/"
 
     const { signIn } = useContext(AuthContext);
 
@@ -44,6 +50,7 @@ function Login() {
                     icon: "success",
                     draggable: true
                 });
+                navigate(from, { replace: true })
             })
             .catch(error => {
                 console.error("Error signing in:", error);
