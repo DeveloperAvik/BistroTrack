@@ -1,11 +1,57 @@
 
+import Swal from "sweetalert2";
+import useAuth from "../../hooks/useAuth";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios"
+
 function FoodCard({ item }) {
 
-    const { name, image, price, recipe } = item;
+    const { name, image, price, recipe, _id } = item;
 
+    const { user } = useAuth();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handelToCart = food => {
         console.log(food)
+
+        if (user && user.email) {
+            // to do
+            // console.log(user.email)
+            const cartItem = {
+                menuId: _id,
+                email: user.email,
+                name,
+                image,
+                price
+            }
+
+            axios.post("http://localhost:3000/carts", cartItem)
+            .then(res => {
+                console.log(res.data)
+                if(res.data.insertedId) {
+                    alert("Working ")
+                }
+            })
+
+
+        } else {
+            Swal.fire({
+                title: "You are not logged In",
+                text: "Please login to add to the cart",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, Log In!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate("/login", { state: { from: location } })
+                }
+            });
+        }
+
+
     }
 
     return (
@@ -21,7 +67,7 @@ function FoodCard({ item }) {
                     <h2 className="card-title">{name}</h2>
                     <p>{recipe}</p>
                     <div className="card-actions justify-end">
-                        <button onClick={()=> handelToCart(item)}
+                        <button onClick={() => handelToCart(item)}
                             type="button"
                             className="btn btn-outline border-0 border-b-2 text-center items-center hover:border-primary focus:outline-none focus:ring-2 focus:ring-primary"
                         >
