@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
+import { FaShoppingCart } from "react-icons/fa"
 
 function Navbar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -25,19 +26,30 @@ function Navbar() {
                 <li><Link to="/menu">Our Menu</Link></li>
                 <li><Link to="/order/salad">Order</Link></li>
                 <li><Link>Contact us</Link></li>
+                <li>
+                    <Link to="/">
+                        <button className='btn'>
+                            <FaShoppingCart/>
+                            <div className='badge badge-secondary'>+0</div>
+                        </button>
+                    </Link>
+                </li>
             </ul>
 
 
             {
                 user ?
                     <>
-                        <button onClick={handelLogOut} className='btn btn-ghost'>Log Out</button>
+                        <div>
+                            <span className='text-zinc-300'>{user?.displayName}</span>
+
+                            <button onClick={handelLogOut} className='btn btn-ghost'>Log Out</button>
+                        </div>
+
                     </>
-
                     :
-
                     <>
-                        <Link to="/login">Login</Link>
+                        <button className='btn btn-ghost'><Link to="/login">Login</Link></button>
                     </>
             }
         </>
