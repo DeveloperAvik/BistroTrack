@@ -2,11 +2,14 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { FaShoppingCart } from "react-icons/fa"
+import useCart from '../../hooks/useCart';
 
 function Navbar() {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-    const { user, logOut } = useContext(AuthContext)
+    const { user, logOut } = useContext(AuthContext);
+
+    const [cart] = useCart()
 
 
     const handelLogOut = () => {
@@ -29,8 +32,8 @@ function Navbar() {
                 <li>
                     <Link to="/">
                         <button className='btn'>
-                            <FaShoppingCart/>
-                            <div className='badge badge-secondary'>+0</div>
+                            <FaShoppingCart />
+                            <div className='badge badge-secondary'>{cart.length}</div>
                         </button>
                     </Link>
                 </li>

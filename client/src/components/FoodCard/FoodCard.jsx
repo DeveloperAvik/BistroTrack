@@ -2,7 +2,7 @@
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
-import axios from "axios"
+import useAxiosSecure from "../../hooks/useAxiosSecure"
 
 function FoodCard({ item }) {
 
@@ -11,6 +11,7 @@ function FoodCard({ item }) {
     const { user } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
+    const axiosSecure = useAxiosSecure()
 
     const handelToCart = food => {
         console.log(food)
@@ -26,13 +27,13 @@ function FoodCard({ item }) {
                 price
             }
 
-            axios.post("http://localhost:3000/carts", cartItem)
-            .then(res => {
-                console.log(res.data)
-                if(res.data.insertedId) {
-                    alert("Working ")
-                }
-            })
+            axiosSecure.post("/carts", cartItem)
+                .then(res => {
+                    console.log(res.data)
+                    if (res.data.insertedId) {
+                        alert("Working ")
+                    }
+                })
 
 
         } else {
